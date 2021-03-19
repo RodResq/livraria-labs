@@ -19,10 +19,14 @@ public class LivroBean {
 
 	private Livro livro = new Livro();
 	
-	private List<Livro> livros;
-	
 	private Integer autorId;
 
+	
+	
+	public void carregar(Livro livro) {
+		System.out.println("Carregando livro " + livro.getTitulo());
+		this.livro = livro;
+	}
 	
 	public void remover(Livro livro) {
 		System.out.println("Removendo Livro " + livro.getTitulo());
@@ -67,11 +71,17 @@ public class LivroBean {
 		System.out.println("Gravando livro " + this.livro.getTitulo());
 
 		if (livro.getAutores().isEmpty()) {
-//			throw new RuntimeException("Livro deve ter pelo menos um Autor.");
-			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("Livro deve ter pelo menos um autor"));
+			FacesContext.getCurrentInstance().addMessage("autor", 
+					new FacesMessage("Livro deve ter pelo menos um autor"));
 		}
-
-		new DAO<Livro>(Livro.class).adiciona(this.livro);
+		
+		if (this.livro.getId() == null) {
+			new DAO<Livro>(Livro.class).adiciona(this.livro);
+		}else {
+			new DAO<Livro>(Livro.class).atualiza(this.livro);
+		}
+		this.getLivros();
+		this.livro = new Livro();
 	}
 	
 	public void comecaComDigitoUm(FacesContext fc, UIComponent component, Object value) throws ValidatorException {
