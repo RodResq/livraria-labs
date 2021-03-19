@@ -19,8 +19,20 @@ public class LivroBean {
 
 	private Livro livro = new Livro();
 	
+	private List<Livro> livros;
+	
 	private Integer autorId;
 
+	
+	public void remover(Livro livro) {
+		System.out.println("Removendo Livro " + livro.getTitulo());
+		new DAO<Livro>(Livro.class).remove(livro);
+	}
+	
+	public List<Livro> getLivros() {
+		return new DAO<Livro>(Livro.class).listaTodos();
+	}
+	
 	public Integer getAutorId() {
 		return autorId;
 	}
