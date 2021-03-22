@@ -10,7 +10,7 @@
 <ui:composition template="_template.xhtml">
 
 	<ui:define name="titulo">
-                Login
+               <p:outputLabel>Login</p:outputLabel>
         </ui:define>
 
 	<ui:define name="conteudo">
@@ -18,8 +18,7 @@
 		<p:messages globalOnly="true" />
 
 		<h:form id="login">
-			<p:fieldset>
-				<legend>Login</legend>
+			<p:fieldset legend="Login">
 				<h:panelGrid columns="3">
 
 					<p:outputLabel value="Email:" for="email" />

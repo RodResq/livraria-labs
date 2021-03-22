@@ -3,10 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="_template.xhtml">
-	<ui:define name="titulo">Novo Livro</ui:define>
+	<ui:define name="titulo">
+		<p:outputLabel>Novo Livro</p:outputLabel>
+	</ui:define>
 	<ui:define name="conteudo">
 		<f:metadata>
 			<f:viewParam name="livroId" value="#{livroBean.livro.id}"></f:viewParam> 
