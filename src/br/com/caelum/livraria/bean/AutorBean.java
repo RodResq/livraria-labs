@@ -43,6 +43,10 @@ public class AutorBean {
 		return autor;
 	}
 
+	public void setAutor(Autor autor) {
+		this.autor = autor;
+	}
+
 	public String gravar() {
 		System.out.println("Gravando autor " + this.autor.getNome());
 
