@@ -23,6 +23,10 @@ public class LivroBean {
 	
 	private Integer livroId;
 	
+	public void removerAutorDoLivro(Autor autor) {
+		this.livro.removeAutor(autor);
+	}
+	
 	public Integer getLivroId() {
 		return livroId;
 	}
