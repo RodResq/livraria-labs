@@ -22,6 +22,8 @@ public class LivroBean {
 	private Integer autorId;
 	
 	private Integer livroId;
+
+	private List<Livro> livros;
 	
 	public void removerAutorDoLivro(Autor autor) {
 		this.livro.removeAutor(autor);
@@ -50,7 +52,12 @@ public class LivroBean {
 	}
 	
 	public List<Livro> getLivros() {
-		return new DAO<Livro>(Livro.class).listaTodos();
+		DAO<Livro> dao = new DAO<Livro>(Livro.class);
+		
+		if (this.livros == null) {
+			this.livros = dao.listaTodos();
+		}
+		return livros;
 	}
 	
 	public Integer getAutorId() {
@@ -91,10 +98,12 @@ public class LivroBean {
 					new FacesMessage("Livro deve ter pelo menos um autor"));
 		}
 		
+		DAO<Livro> dao = new DAO<Livro>(Livro.class);
 		if (this.livro.getId() == null) {
-			new DAO<Livro>(Livro.class).adiciona(this.livro);
+			dao.adiciona(this.livro);
+			this.livros = dao.listaTodos();
 		}else {
-			new DAO<Livro>(Livro.class).atualiza(this.livro);
+			dao.atualiza(this.livro);
 		}
 		this.getLivros();
 		this.livro = new Livro();
