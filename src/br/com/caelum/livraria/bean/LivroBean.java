@@ -1,6 +1,7 @@
 package br.com.caelum.livraria.bean;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -24,6 +25,37 @@ public class LivroBean {
 	private Integer livroId;
 
 	private List<Livro> livros;
+	
+	public boolean precoEhMenor(Object valorColuna, Object filtroDigitado, Locale locale) { //java.util.Locale
+		//tirando espaços do filtro
+        String textoDigitado = (filtroDigitado == null) ? null : filtroDigitado.toString().trim();
+
+        System.out.println("Filtrando pelo " + textoDigitado + ", Valor do elemento: " + valorColuna);
+
+        // o filtro é nulo ou vazio?
+        if (textoDigitado == null || textoDigitado.equals("")) {
+            return true;
+        }
+
+        // elemento da tabela é nulo?
+        if (valorColuna == null) {
+            return false;
+        }
+
+        try {
+            // fazendo o parsing do filtro para converter para Double
+            Double precoDigitado = Double.valueOf(textoDigitado);
+            Double precoColuna = (Double) valorColuna;
+
+            // comparando os valores, compareTo devolve um valor negativo se o value é menor do que o filtro
+            return precoColuna.compareTo(precoDigitado) < 0;
+
+        } catch (NumberFormatException e) {
+
+            // usuario nao digitou um numero
+            return false;
+        }
+	}
 	
 	public void removerAutorDoLivro(Autor autor) {
 		this.livro.removeAutor(autor);
@@ -99,6 +131,7 @@ public class LivroBean {
 		}
 		
 		DAO<Livro> dao = new DAO<Livro>(Livro.class);
+		
 		if (this.livro.getId() == null) {
 			dao.adiciona(this.livro);
 			this.livros = dao.listaTodos();
