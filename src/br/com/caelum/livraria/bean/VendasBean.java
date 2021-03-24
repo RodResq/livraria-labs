@@ -1,6 +1,7 @@
 package br.com.caelum.livraria.bean;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -8,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
+import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 
@@ -22,27 +24,39 @@ public class VendasBean {
 	public BarChartModel getVendasModel() {
 
 	    BarChartModel model = new BarChartModel();
-
-	    ChartSeries vendaSerie = new ChartSeries();
-	    vendaSerie.setLabel("Vendas 2021");
+	    model.setAnimate(true);
+	    	
 	    
-	    List<Venda> vendas = getVendas();
+	    ChartSeries vendaSerie = new ChartSeries();
+	    vendaSerie.setLabel("Vendas 2020");
+	    
+	    ChartSeries vendaSerie2019 = new ChartSeries();
+	    vendaSerie2019.setLabel("Vendas 2019");
+	    
+	    List<Venda> vendas = getVendas(1234);
 	    for (Venda venda : vendas) {
 			vendaSerie.set(venda.getLivro().getTitulo(), venda.getQuantidade());
 		}
 	    
+	    
+	    List<Venda> vendas2019 = getVendas(4321);
+	    for (Venda venda2019 : vendas2019) {
+			vendaSerie2019.set(venda2019.getLivro().getTitulo(), venda2019.getQuantidade());
+		}
+	    
 	    model.addSeries(vendaSerie);
+	    model.addSeries(vendaSerie2019);
 
 	    return model;
 	}
 
 	
-	public List<Venda> getVendas() {
+	public List<Venda> getVendas(long seed) {
 		
 		List<Venda> vendas = new ArrayList<Venda>();
 		List<Livro> livros = new DAO<Livro>(Livro.class).listaTodos();
 		
-		Random random = new Random(1234);
+		Random random = new Random(seed);
 		
 		for (Livro livro : livros) {
 			Integer quantidade = random.nextInt(500);
