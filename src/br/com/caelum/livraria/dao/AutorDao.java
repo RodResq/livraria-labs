@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import br.com.caelum.livraria.log.Log;
 import br.com.caelum.livraria.modelo.Autor;
 
 @SuppressWarnings("serial")
@@ -39,6 +40,7 @@ public class AutorDao implements Serializable {
     	this.dao.remove(autor);
     }
 
+    @Log
     public List<Autor> listaTodos() {
         return this.dao.listaTodos();
     }
