@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
@@ -25,7 +26,7 @@ public class VendasBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	LivroDao livroDao;
+	EntityManager manager;
 	
 	public BarChartModel getVendasModel() {
 
@@ -36,38 +37,21 @@ public class VendasBean implements Serializable {
 	    ChartSeries vendaSerie = new ChartSeries();
 	    vendaSerie.setLabel("Vendas 2020");
 	    
-	    ChartSeries vendaSerie2019 = new ChartSeries();
-	    vendaSerie2019.setLabel("Vendas 2019");
 	    
-	    List<Venda> vendas = getVendas(1234);
+	    List<Venda> vendas = getVendas();
 	    for (Venda venda : vendas) {
 			vendaSerie.set(venda.getLivro().getTitulo(), venda.getQuantidade());
 		}
 	    
-	    
-	    List<Venda> vendas2019 = getVendas(4321);
-	    for (Venda venda2019 : vendas2019) {
-			vendaSerie2019.set(venda2019.getLivro().getTitulo(), venda2019.getQuantidade());
-		}
-	    
 	    model.addSeries(vendaSerie);
-	    model.addSeries(vendaSerie2019);
 
 	    return model;
 	}
 
 	
-	public List<Venda> getVendas(long seed) {
+	public List<Venda> getVendas() {
 		
-		List<Venda> vendas = new ArrayList<Venda>();
-		List<Livro> livros = this.livroDao.listaTodos();
-		
-		Random random = new Random(seed);
-		
-		for (Livro livro : livros) {
-			Integer quantidade = random.nextInt(500);
-			vendas.add(new Venda(livro, quantidade));
-		}
+		List<Venda> vendas = manager.createQuery("select v from Venda v", Venda.class).getResultList();
 		
 		return vendas;
 		
