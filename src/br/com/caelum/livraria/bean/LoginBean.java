@@ -31,7 +31,6 @@ public class LoginBean implements Serializable {
 	
 	public String deslogar() {
 		
-		context.getCurrentInstance();
 		context.getExternalContext().getSessionMap().remove("usuarioLogado");
 		
 		return "livro?faces-redirect=true";
@@ -41,7 +40,6 @@ public class LoginBean implements Serializable {
 		System.out.println("Fazendo Login do Usuario " + this.usuario.getEmail());
 		
 		boolean existe = dao.existe(this.usuario);
-		context.getCurrentInstance();
 		
 		if (existe) {
 			context.getExternalContext().getSessionMap().put("usuarioLogado", this.usuario);

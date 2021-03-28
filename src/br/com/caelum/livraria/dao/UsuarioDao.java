@@ -13,11 +13,11 @@ import br.com.caelum.livraria.modelo.Usuario;
 public class UsuarioDao implements Serializable {
 	
 	@Inject
-	EntityManager em;
+	EntityManager manager;
 	
 	public boolean existe (Usuario usuario) {
 		
-		TypedQuery<Usuario> query = em.createQuery("select u from Usuario u where u.email = :pEmail and u.password = :pPassword",
+		TypedQuery<Usuario> query = manager.createQuery("select u from Usuario u where u.email = :pEmail and u.password = :pPassword",
 				Usuario.class);
 		
 		query.setParameter("pEmail", usuario.getEmail());
@@ -30,7 +30,6 @@ public class UsuarioDao implements Serializable {
 			return false;
 		}
 		
-		em.close();
 		
 		return true;
 	
